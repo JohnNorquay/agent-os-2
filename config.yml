@@ -1,0 +1,338 @@
+# Agent-OS 2.0 HYBRID Configuration
+# Combines lazy-loading skills with multi-agent specialization for optimal context management
+
+# ========================================
+# HYBRID MODE CONFIGURATION
+# ========================================
+# When enabled, the orchestrator spawns specialized subagents for implementation
+# This provides context isolation and prevents context window overflow
+
+hybrid_mode:
+  enabled: true
+
+  # Subagent roles are defined in roles/implementers.yml and roles/verifiers.yml
+  implementer_roles:
+    - database-engineer
+    - api-engineer
+    - ui-designer
+    - testing-engineer
+
+  verifier_roles:
+    - backend-verifier
+    - frontend-verifier
+
+  # Enable parallel execution of independent tasks
+  parallel_execution: true
+
+  # Enable task delegation to Chat Claude via MCP
+  chat_claude_delegation: true
+
+# ========================================
+# STACK DEFINITIONS
+# ========================================
+stacks:
+  supabase-vercel:
+    name: "Supabase + Vercel Stack"
+    description: "Full-stack with Supabase backend, Next.js frontend on Vercel"
+    skills:
+      - supabase-patterns
+      - vercel-deployment
+      - nextjs-conventions
+    mcp_servers:
+      - supabase
+      - vercel
+      - chat-claude
+    default: true
+
+  supabase-fly:
+    name: "Supabase + Fly.io Stack"
+    description: "Backend services on Fly.io with Supabase database"
+    skills:
+      - supabase-patterns
+      - fly-deployment
+      - docker-conventions
+    mcp_servers:
+      - supabase
+      - fly
+      - chat-claude
+    default: false
+
+# ========================================
+# CONTEXT MANAGEMENT
+# ========================================
+context:
+  # Orchestrator keeps context minimal by delegating to subagents
+  orchestrator_max_skills: 2  # Only orchestrator + stack skill
+
+  # Subagents load only what they need
+  subagent_max_skills: 5  # Stack + relevant standards
+
+  # Track context usage for optimization
+  track_token_usage: true
+
+# ========================================
+# STANDARDS & QUALITY
+# ========================================
+quality:
+  # Require verification after implementation
+  require_verification: true
+
+  # Standards compliance checking
+  enforce_standards: true
+
+  # Minimum test coverage (percentage)
+  min_test_coverage: 80
+
+  # Run tests before marking tasks complete
+  require_passing_tests: true
+
+# ========================================
+# TASK ROUTING
+# ========================================
+routing:
+  # Auto-assign role metadata during spec creation
+  auto_assign_roles: true
+
+  # Detect task dependencies automatically
+  auto_detect_dependencies: true
+
+  # Keywords for role assignment (used during /create-spec)
+  role_keywords:
+    database-engineer:
+      - database
+      - migration
+      - schema
+      - model
+      - table
+      - query
+    api-engineer:
+      - api
+      - endpoint
+      - controller
+      - backend
+      - route
+      - handler
+    ui-designer:
+      - ui
+      - component
+      - frontend
+      - view
+      - page
+      - layout
+    testing-engineer:
+      - test
+      - testing
+      - spec
+
+  delegation_keywords:
+    research:
+      - research
+      - investigate
+      - compare
+      - evaluate
+    documentation:
+      - document
+      - docs
+      - guide
+      - readme
+    design:
+      - design
+      - architecture
+      - schema design
+    analysis:
+      - analyze
+      - review
+      - audit
+
+# ========================================
+# DEFAULT SETTINGS
+# ========================================
+defaults:
+  auto_load_skills: true
+  mcp_auto_connect: true
+  verbose_logging: false
+
+  # Create implementation reports
+  create_reports: true
+
+  # Create verification reports
+  create_verification_reports: true
+
+# ========================================
+# AUTONOMOUS MODE
+# ========================================
+# Enables fully autonomous development where AI makes decisions,
+# recovers from errors, and notifies you of progress while you work on other things
+
+autonomous_mode:
+  enabled: true
+
+  # Decision Making
+  decision_making:
+    use_spec_guidelines: true      # Follow decision guidelines in spec
+    use_stack_patterns: true       # Use patterns from stack skill
+    use_reasonable_defaults: true  # Make smart defaults when no guidance
+    pause_on_critical: true        # Pause for truly critical decisions only
+    log_all_decisions: true        # Log every decision for review
+
+  # Error Recovery
+  error_recovery:
+    enabled: true
+    max_retries: 3
+    strategies:
+      - analyze_error
+      - search_documentation
+      - search_web
+      - try_alternative_approach
+      - simplify_implementation
+    pause_on_max_retries: false    # Continue with best effort
+    log_all_attempts: true
+
+  # Testing & Iteration
+  testing:
+    auto_fix_failures: true
+    max_fix_iterations: 5
+    run_after_each_fix: true
+    types:
+      - unit
+      - integration
+      - e2e
+
+  # Visual Testing
+  visual_testing:
+    enabled: true
+    take_screenshots: true
+    viewports:
+      - mobile: {width: 375, height: 667}
+      - tablet: {width: 768, height: 1024}
+      - desktop: {width: 1440, height: 900}
+    test_interactions: true
+    visual_regression: true
+    baseline_dir: .agent-os/visual-baselines/
+
+  # Dependency Management
+  dependencies:
+    auto_install: true
+    auto_update: false
+    verify_safety: true
+
+  # Deployment
+  deployment:
+    staging:
+      auto_deploy: true
+      after: verification_passes
+      run_smoke_tests: true
+    production:
+      auto_deploy: false
+      require_user_approval: true
+
+  # Notifications
+  notifications:
+    enabled: true
+    min_interval: 5_minutes        # Don't spam
+    summary_interval: 30_minutes   # Send summary every 30 min
+
+    # Email Notifications (detailed updates)
+    email:
+      enabled: true                 # ✅ Email notifications enabled!
+      provider: gmail               # Options: gmail, sendgrid, smtp
+      from: ${EMAIL_FROM}
+      to: ${EMAIL_TO}               # Can be array for multiple recipients
+
+      # Gmail/SMTP Configuration
+      smtp:
+        host: ${SMTP_HOST}          # smtp.gmail.com
+        port: ${SMTP_PORT}          # 587
+        secure: ${SMTP_SECURE}      # false (uses STARTTLS)
+        auth:
+          user: ${SMTP_USER}        # john.norquay@gmail.com
+          pass: ${SMTP_PASS}        # Your app password
+
+      # Or SendGrid API Key
+      # api_key: ${SENDGRID_API_KEY}
+
+      format: html                  # Options: html, text
+      include_screenshots: true     # Attach screenshots to emails
+      notify_on:
+        - feature_complete
+        - verification_complete
+        - deployment_complete
+        - critical_error
+
+    # SMS/Text Notifications (critical updates only)
+    sms:
+      enabled: false                # Set to true to enable
+      provider: twilio              # Options: twilio, vonage, aws-sns
+      to: ${SMS_TO}                 # Your mobile number (+1234567890)
+
+      # Twilio Configuration
+      account_sid: ${TWILIO_ACCOUNT_SID}
+      auth_token: ${TWILIO_AUTH_TOKEN}
+      from: ${TWILIO_PHONE_FROM}    # Your Twilio number
+
+      # Or Vonage Configuration
+      # api_key: ${VONAGE_API_KEY}
+      # api_secret: ${VONAGE_API_SECRET}
+      # from: ${VONAGE_PHONE_FROM}
+
+      # Or AWS SNS Configuration
+      # region: ${AWS_REGION}
+      # credentials:
+      #   access_key_id: ${AWS_ACCESS_KEY_ID}
+      #   secret_access_key: ${AWS_SECRET_ACCESS_KEY}
+
+      max_length: 160               # Standard SMS length
+      include_links: true           # Include short URLs
+      notify_on:
+        - feature_complete
+        - critical_error
+
+    # Slack Notifications (team updates)
+    slack:
+      enabled: false                # Set to true and configure webhook
+      webhook_url: ${SLACK_WEBHOOK_URL}
+      channel: "#agent-os-builds"   # Optional: override webhook channel
+      notify_on:
+        - task_started
+        - task_completed
+        - error_encountered
+        - error_resolved
+        - verification_complete
+        - deployment_complete
+        - feature_complete
+
+    # Webhook (custom integrations)
+    webhook:
+      enabled: false
+      url: ${WEBHOOK_URL}
+      method: POST                  # HTTP method
+      headers:
+        Authorization: Bearer ${WEBHOOK_TOKEN}
+      notify_on:
+        - all
+
+    # Quiet Hours
+    quiet_hours:
+      enabled: false
+      start: "22:00"                # 10 PM
+      end: "08:00"                  # 8 AM
+      timezone: America/New_York
+      behavior: queue               # Options: queue, send_anyway, disable
+      exceptions:
+        - critical_error            # Always send these
+
+  # Checkpoints (optional pauses for review)
+  checkpoints:
+    enabled: false                 # Set to true for staged approval
+    pause_at:
+      - after_database_layer
+      - after_api_layer
+      - after_ui_layer
+      - before_deployment
+    auto_resume_after: 24_hours
+
+# ========================================
+# VERSION
+# ========================================
+version: "2.0.0-hybrid-autonomous"
+architecture: "hybrid-multi-agent-autonomous"

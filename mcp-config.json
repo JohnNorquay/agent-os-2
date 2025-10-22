@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "version-manager": {
+      "command": "node",
+      "args": [
+        "/home/ohn_orquay/.claude/plugins/agent-os-2/mcp-servers/version-manager/version-manager-server.js"
+      ]
+    }
+  }
+}

@@ -1,0 +1,89 @@
+{
+  "mcpServers": {
+    "chat-claude": {
+      "command": "node",
+      "args": [
+        "/home/ohn_orquay/.claude/plugins/agent-os-2/mcp-servers/chat-claude/chat-claude-server.js"
+      ],
+      "env": {
+        "ANTHROPIC_API_KEY": "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"
+      }
+    },
+    "vercel": {
+      "command": "node",
+      "args": [
+        "/home/ohn_orquay/.claude/plugins/agent-os-2/mcp-servers/vercel-mcp-wrapper.js"
+      ],
+      "env": {
+        "VERCEL_TOKEN": "14zoFbLVAjOPMrq8xPGqwXP4"
+      }
+    },
+    "flyio": {
+      "command": "node",
+      "args": [
+        "/home/ohn_orquay/.claude/plugins/agent-os-2/mcp-servers/flyio-mcp-wrapper.js"
+      ],
+      "env": {
+        "FLY_API_TOKEN": "FlyV1 fm2_lJPECAAAAAAACn3rxBCtF+q4+tSXZkwIjU7cmmURwrVodHRwczovL2FwaS5mbHkuaW8vdjGUAJLOABQFzR8Lk7lodHRwczovL2FwaS5mbHkuaW8vYWFhL3YxxDw6rya5ZRHaLAOKvBwHyu21VBAmMPcjI4+athiHbxkaxO0Djq59hkIRCohbQn2gT6axRufvZBRISrkMFV3ETkfBQIy0xv7RLE/CGPRRfCZ6aTI8A164iwxffGbR50zzhasHO/J9E3hqcURkaEh0gT8h1FBT4R1KwCDNUmVXz85o/kjToojDzHigA2k2GMQg/c7LNmo0JLwuPEafv6v83QyJMcFg5T4mRQAIrXG+x7M=,fm2_lJPETkfBQIy0xv7RLE/CGPRRfCZ6aTI8A164iwxffGbR50zzhasHO/J9E3hqcURkaEh0gT8h1FBT4R1KwCDNUmVXz85o/kjToojDzHigA2k2GMQQ62CNNBxoGg4FXz8qDTmYcMO5aHR0cHM6Ly9hcGkuZmx5LmlvL2FhYS92MZgEks5o9nimzwAAAAEk7pbEF84AEzwICpHOABM8CAzEEA1Ma1jGL1hReuhcQOmjDWfEIJ3aD7ZzyEdMaH3nh3dXP/WT+ZbDu3UJVvottBeOvsgQ"
+      }
+    },
+    "supabase-PickSix": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@supabase/mcp-server-supabase"
+      ],
+      "env": {
+        "SUPABASE_URL": "https://aidaxmvsmfjdnimuxrex.supabase.co",
+        "SUPABASE_SERVICE_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFpZGF4bXZzbWZqZG5pbXV4cmV4Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc2MDQ2NDI2OSwiZXhwIjoyMDc2MDQwMjY5fQ.r3zr2lHolob-mF2nRkztfHAG2Cr99LbTmJExlzM2oQU"
+      }
+    },
+    "supabase-IntegrationDirector": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@supabase/mcp-server-supabase"
+      ],
+      "env": {
+        "SUPABASE_URL": "https://evllxrejudhifvsllqho.supabase.co",
+        "SUPABASE_SERVICE_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV2bGx4cmVqdWRoaWZ2c2xscWhvIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc2MDYxNDA3OSwiZXhwIjoyMDc2MTkwMDc5fQ.nV_VIX0BMIyFeMx2xPvXu9y5o8aTNcDOX8DYSAeh8qg"
+      }
+    },
+    "filesystem": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "/home/ohn_orquay",
+        "/tmp"
+      ]
+    },
+    "github": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-github"
+      ],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "<REPLACE_WITH_YOUR_GITHUB_TOKEN>"
+      }
+    },
+    "playwright": {
+      "command": "npx",
+      "args": [
+        "@playwright/mcp@latest"
+      ]
+    },
+    "slack": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-slack"
+      ],
+      "env": {
+        "SLACK_BOT_TOKEN": "<REPLACE_WITH_YOUR_SLACK_BOT_TOKEN>",
+        "SLACK_TEAM_ID": "<REPLACE_WITH_YOUR_SLACK_TEAM_ID>"
+      }
+    }
+  }
+}

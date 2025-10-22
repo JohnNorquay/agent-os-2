@@ -1,0 +1,27 @@
+{
+  "name": "version-manager-mcp-server",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "MCP server for semantic versioning automation",
+  "main": "version-manager-server.js",
+  "bin": {
+    "version-manager-mcp": "./version-manager-server.js"
+  },
+  "scripts": {
+    "start": "node version-manager-server.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^0.5.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "keywords": [
+    "mcp",
+    "semantic-versioning",
+    "version-manager",
+    "changelog"
+  ],
+  "author": "Your Name",
+  "license": "MIT"
+}
